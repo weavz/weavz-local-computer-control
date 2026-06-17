@@ -1,5 +1,5 @@
 {
-  "name": "@weavz-io/local-computer-use",
+  "name": "@weavz-io/local-computer-control",
   "version": "0.1.0",
   "description": "Local computer companion launcher for Weavz Agent Local Computer Control",
   "type": "module",
@@ -7,15 +7,15 @@
   "homepage": "https://weavz.io/docs/concepts/local-computer-control",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/weavz/weavz-local-computer-use.git"
+    "url": "git+https://github.com/weavz/weavz-local-computer-control.git"
   },
   "bugs": {
-    "url": "https://github.com/weavz/weavz-local-computer-use/issues"
+    "url": "https://github.com/weavz/weavz-local-computer-control/issues"
   },
   "keywords": [
     "weavz",
     "local-computer",
-    "computer-use",
+    "computer-control",
     "desktop-automation",
     "macos",
     "agents",
@@ -31,7 +31,7 @@
     "LICENSE"
   ],
   "bin": {
-    "weavz-local-computer-use": "dist/cli.mjs"
+    "weavz-local-computer-control": "dist/cli.mjs"
   },
   "publishConfig": {
     "access": "public"

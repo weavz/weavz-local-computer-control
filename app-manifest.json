@@ -2,10 +2,8 @@
   "appName": "Weavz Local Computer Control",
   "bundleId": "io.weavz.local-computer-control",
   "platform": "macos",
-  "downloadUrl": "https://github.com/weavz/weavz-local-computer-use/releases/latest",
+  "available": false,
+  "downloadUrl": null,
   "version": "0.1.0",
-  "artifact": {
-    "fileName": "WeavzLocalComputerControl.dmg",
-    "sha256": "TBD_PRIVATE_NOTARIZED_BUILD"
-  }
+  "artifact": null
 }

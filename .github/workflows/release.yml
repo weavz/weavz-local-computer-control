@@ -1,4 +1,4 @@
-name: Release Local Computer Use
+name: Release Local Computer Control
 
 on:
   workflow_dispatch:
@@ -17,7 +17,7 @@ on:
           - latest
           - next
       confirm_release:
-        description: Type release-local-computer-use to publish
+        description: Type release-local-computer-control to publish
         required: false
         type: string
 
@@ -29,12 +29,12 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 concurrency:
-  group: local-computer-use-release-${{ github.ref_name }}
+  group: local-computer-control-release-${{ github.ref_name }}
   cancel-in-progress: false
 
 jobs:
   release:
-    name: Release @weavz-io/local-computer-use
+    name: Release @weavz-io/local-computer-control
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment: npm-release
@@ -62,8 +62,8 @@ jobs:
             exit 1
           fi
 
-          if [ "$DRY_RUN" = "false" ] && [ "$CONFIRM_RELEASE" != "release-local-computer-use" ]; then
-            echo "Real release requires confirm_release=release-local-computer-use"
+          if [ "$DRY_RUN" = "false" ] && [ "$CONFIRM_RELEASE" != "release-local-computer-control" ]; then
+            echo "Real release requires confirm_release=release-local-computer-control"
             exit 1
           fi
 
@@ -84,6 +84,18 @@ jobs:
         run: |
           test -f dist/cli.mjs
           test -f app-manifest.json
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const manifest = JSON.parse(fs.readFileSync('app-manifest.json', 'utf8'))
+          if (manifest.available === false) {
+            if (manifest.downloadUrl !== null || manifest.artifact !== null) {
+              throw new Error('Unavailable app manifest must not include downloadUrl or artifact metadata')
+            }
+          } else {
+            if (!manifest.downloadUrl || !manifest.artifact) throw new Error('Available app manifest requires downloadUrl and artifact')
+            if (!/^[a-f0-9]{64}$/i.test(manifest.artifact.sha256 || '')) throw new Error('App artifact sha256 must be a 64-character hex digest')
+          }
+          NODE
           node dist/cli.mjs --help
           version="$(node -p "require('./package.json').version")"
           actual="$(node dist/cli.mjs --version)"
@@ -93,8 +105,8 @@ jobs:
           fi
           echo "version=${version}" >> "$GITHUB_OUTPUT"
 
-          if npm view "@weavz-io/local-computer-use@${version}" version >/dev/null 2>&1; then
-            echo "@weavz-io/local-computer-use@${version} is already published"
+          if npm view "@weavz-io/local-computer-control@${version}" version >/dev/null 2>&1; then
+            echo "@weavz-io/local-computer-control@${version} is already published"
             exit 1
           fi
 
@@ -126,8 +138,8 @@ jobs:
         if: inputs.dry_run == false
         run: |
           gh release create "v${VERSION}" \
-            --title "@weavz-io/local-computer-use v${VERSION}" \
-            --notes "Published @weavz-io/local-computer-use@${VERSION} to npm."
+            --title "@weavz-io/local-computer-control v${VERSION}" \
+            --notes "Published @weavz-io/local-computer-control@${VERSION} to npm."
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.package.outputs.version }}
