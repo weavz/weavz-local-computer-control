@@ -1,0 +1,49 @@
+{
+  "name": "@weavz-io/local-computer-use",
+  "version": "0.1.0",
+  "description": "Local computer companion launcher for Weavz Agent Local Computer Control",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://weavz.io/docs/concepts/local-computer-control",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weavz/weavz-local-computer-use.git"
+  },
+  "bugs": {
+    "url": "https://github.com/weavz/weavz-local-computer-use/issues"
+  },
+  "keywords": [
+    "weavz",
+    "local-computer",
+    "computer-use",
+    "desktop-automation",
+    "macos",
+    "agents",
+    "mcp"
+  ],
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "files": [
+    "dist/",
+    "app-manifest.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "bin": {
+    "weavz-local-computer-use": "dist/cli.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "prepack": "node scripts/prepack.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "esbuild": "0.28.0",
+    "typescript": "^5.7.3"
+  }
+}
